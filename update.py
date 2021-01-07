@@ -13,6 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import sentry_sdk
+from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
+
+sentry_sdk.init(
+    integrations=[AwsLambdaIntegration(timeout_warning=True)]
+)
+
 import os
 
 import boto3
