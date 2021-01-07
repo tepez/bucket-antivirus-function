@@ -37,7 +37,7 @@ RUN rpm2cpio libtasn1* | cpio -idmv
 RUN cp /tmp/usr/bin/clamscan /tmp/usr/bin/freshclam /tmp/usr/lib64/* /opt/app/bin/
 
 # Fix the freshclam.conf settings
-RUN echo "DatabaseMirror database.clamav.net" > /opt/app/bin/freshclam.conf
+RUN echo "DatabaseMirror clamav-db.tepez.co.il" > /opt/app/bin/freshclam.conf
 RUN echo "CompressLocalDatabase yes" >> /opt/app/bin/freshclam.conf
 
 # Create the zip file
