@@ -46,6 +46,7 @@ from common import AV_STATUS_SNS_PUBLISH_INFECTED
 from common import AV_TIMESTAMP_METADATA
 from common import create_dir
 from common import get_timestamp
+import datetime
 
 
 def event_object(event, event_source="s3"):
@@ -262,6 +263,18 @@ def lambda_handler(event, context):
             scan_signature,
             result_time,
         )
+
+    print("(" + context.aws_request_id + ") " + json.dumps({
+        "type": "clamav_scan",
+        "scan": {
+            "bucket": s3_object.bucket_name,
+            "key": s3_object.key,
+            "version": s3_object.version_id,
+            AV_SIGNATURE_METADATA: scan_signature,
+            AV_STATUS_METADATA: scan_result,
+            AV_TIMESTAMP_METADATA: datetime.datetime.now().isoformat(),
+        }
+    }))
 
     metrics.send(
         env=ENV, bucket=s3_object.bucket_name, key=s3_object.key, status=scan_result
